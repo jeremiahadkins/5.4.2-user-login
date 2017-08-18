@@ -7,6 +7,8 @@ const parseurl = require('parseurl');
 
 const app = express();
 
+app.use('/css', express.static(__dirname + '/node_modules/bootstrap/dist/css'));
+
 app.engine('handlebars', exphbs({defaultLayout: 'main'}));
 app.set('view engine', 'handlebars');
 
@@ -36,7 +38,7 @@ app.use(morgan('combined'));
 
 // this creates session variable although it doesn't appear to do anything
 app.use(session({
-  name: 'eat shit',
+  name: 'userSession',
   secret: 'soundsdelicious',
   resave: false,
   saveUninitialized: true
@@ -44,8 +46,9 @@ app.use(session({
 
 
 app.use((req, res, next) => {
+  // console.log('req', req);
   let pathName = parseurl(req).pathname;
-  console.log('pathName', pathName);
+  // console.log('pathName', pathName);
 
   if (!req.session.isLoggedIn && pathName != '/login') {
     res.redirect('/login');
@@ -61,30 +64,35 @@ app.get('/login', (req, res) => {
 })
 
 
-
 app.post('/login', (req, res) => {
-  console.log('user', req.body.usernameField);
-  console.log('password', req.body.passwordField);
+  // console.log('user', req.body.usernameField);
+  // console.log('password', req.body.passwordField);
 
   // remember why we used for loop instead of forEach
   for (var i = 0; i < logins.length; i++) {
     let login = logins[i];
     if (login.user === req.body.usernameField && login.password === req.body.passwordField) {
-      console.log('bah god you did it');
+      // console.log('bah god you did it');
       req.session.isLoggedIn = true;
+
+      // add user key value pair to req.session
       req.session.user = req.body.usernameField;
-      // return;
     }
   }
   res.redirect('/'); // return to middleware
 })
 
 
+app.post('/logout', (req, res) => {
+  req.session.destroy(() => {
+    res.redirect('/');
+  });  
+});
+
 
 app.get('/', (req, res) => {
   res.render('index', {user: req.session.user});
 });
-
 
 
 app.listen(3090, (req, res) => {

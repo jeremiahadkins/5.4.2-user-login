@@ -1,5 +1,10 @@
-<form action="/login" method="post">
-  <input type="text" name="usernameField" value="" />
-  <input type="text" name="passwordField" value="" />
-  <input type="submit" value="Login" />
-</form>
+<h1 class="text-white text-center mt-5">Login</h1>
+<div class="card mt-5 p-5">
+  <form action="/login" method="post" class="mb-0">
+    <div class="form-group mb-0">
+      <input class="form-control mb-4" type="text" name="usernameField" value="" placeholder="Username"/>
+      <input class="form-control mb-4" type="password" name="passwordField" value="" placeholder="Password"/>
+      <button type="submit" class="btn btn-primary btn-block">Login</button>
+    </div>
+  </form>
+</div>

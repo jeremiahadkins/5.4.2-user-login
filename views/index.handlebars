@@ -1,2 +1,8 @@
-boo
-{{user}}
+<div class="card mt-5 p-5 text-center">
+  <h1 class="display-2">👏</h1>
+  <h4 class="mb-4">Welcome, <strong>{{user}}!</strong></h4>
+  <h6 class="small text-muted">You will remain logged in until your session is terminated.</h6>
+  <form action="/logout" class="mt-3" method="post">
+    <button type="submit" class="btn btn-sm btn-primary">Log Out</button>
+  </form>
+</div>
